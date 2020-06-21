@@ -122,6 +122,17 @@ public:
     char errorMsg = 'A';
     int statusBarValue = 0;
 
+    void setButtonPressedGraphics(QPushButton *buttonChanged) {
+        QGraphicsColorizeEffect *buttonEffect = new QGraphicsColorizeEffect(buttonChanged);
+        buttonChanged->setGraphicsEffect(buttonEffect);
+        QPropertyAnimation *buttonAnimation = new QPropertyAnimation(buttonEffect, "color");
+        buttonAnimation->setStartValue(QColor(Qt::blue));
+        buttonAnimation->setEndValue(QColor(Qt::red));
+        buttonAnimation->setDuration(1000);
+        buttonAnimation->start();
+        return;
+    }
+
     void setErrorBar(int errorVal) {
         scriptStatus->setValue(50);
         scriptStatus->setStyleSheet(QString::fromUtf8("QProgressBar::chunk\n"
@@ -809,36 +820,43 @@ public:
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("berryFarming");
+            setButtonPressedGraphics(berryFarmingButton);
         });
         QObject::connect(boxReleaseButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("boxRelease");
+            setButtonPressedGraphics(boxReleaseButton);
         });
         QObject::connect(championsCupButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("championsCup");
+            setButtonPressedGraphics(championsCupButton);
         });
         QObject::connect(diggerBrothersButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("diggerBrothers");
+            setButtonPressedGraphics(diggerBrothersButton);
         });
         QObject::connect(lottoFarmingButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("lottoFarm");
+            setButtonPressedGraphics(lottoFarmingButton);
         });
         QObject::connect(pokeJobFarmingButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("pokeJob");
+            setButtonPressedGraphics(pokeJobFarmingButton);
         });
         QObject::connect(stowOnSideButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("stowOnSide");
+            setButtonPressedGraphics(stowOnSideButton);
         });
 
         QObject::connect(evTrainButton, &QPushButton::clicked, [=](){
@@ -850,6 +868,7 @@ public:
             else {
                 ftdi.ftdiClose();
             }
+            setButtonPressedGraphics(evTrainButton);
         });
         QObject::connect(hatchButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
@@ -860,6 +879,7 @@ public:
             else {
                 ftdi.ftdiClose();
             }
+            setButtonPressedGraphics(hatchButton);
         });
         QObject::connect(reviveButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
@@ -870,44 +890,43 @@ public:
             else {
                 ftdi.ftdiClose();
             }
+            setButtonPressedGraphics(reviveButton);
         });
         QObject::connect(starFarmingButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("starFarming");
-            QGraphicsColorizeEffect *starFarmingEffect = new QGraphicsColorizeEffect(starFarmingButton);
-            starFarmingButton->setGraphicsEffect(starFarmingEffect);
-            QPropertyAnimation *starFarmingAnimation = new QPropertyAnimation(starFarmingEffect, "color");
-            starFarmingAnimation->setStartValue(QColor(Qt::blue));
-            starFarmingAnimation->setEndValue(QColor(Qt::red));
-            starFarmingAnimation->setDuration(1000);
-            starFarmingAnimation->start();
-
+            setButtonPressedGraphics(starFarmingButton);
         });
         QObject::connect(diyRepetitionButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("diyRepetition");
+            setButtonPressedGraphics(diyRepetitionButton);
         });
         QObject::connect(eatFruitButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("eatFruit");
+            setButtonPressedGraphics(eatFruitButton);
         });
         QObject::connect(depositBoxButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("depositBox");
+            setButtonPressedGraphics(depositBoxButton);
         });
         QObject::connect(axeBreakButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("axeBreak");
+            setButtonPressedGraphics(axeBreakButton);
         });
         QObject::connect(wattFarmingButton, &QPushButton::clicked, [=](){
             ftdiFunctions ftdi;
             ftdi.ftdiStartup();
             ftdi.sendButton("wattFarming");
+            setButtonPressedGraphics(wattFarmingButton);
         });
         QObject::connect(ftdiSendButton, &QPushButton::clicked, [=](){
            progressBar->reset();
