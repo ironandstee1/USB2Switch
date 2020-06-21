@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="/:">
+    <file>joycon2.png</file>
+    <file>arrowiconhover.png</file>
+    <file>arrowicon.png</file>
+    <file>plusoverlay.png</file>
+    <file>minusoverlay.png</file>
+    <file>joycon1.png</file>
+  </qresource>
+</RCC>
