@@ -219,7 +219,7 @@ public:
 
     void retranslateUi(QFrame *statusFrame)
     {
-        statusFrame->setWindowTitle(QCoreApplication::translate("statusFrame", "Frame", nullptr));
+        statusFrame->setWindowTitle(QCoreApplication::translate("statusFrame", "Status", nullptr));
         getStatus->setText(QCoreApplication::translate("statusFrame", "Get Status", nullptr));
     } // retranslateUi
 

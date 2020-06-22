@@ -35,7 +35,7 @@ LIBS += \
     -lKernel32 \
     -L"C:\Users\Coulter\Documents\GamepadApplication5" -lftd2xx
 
-CONFIG += console
+#CONFIG += console
 
 RC_ICONS = joyconicon.ico
 

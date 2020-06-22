@@ -117,6 +117,10 @@ public:
     QStatusBar *statusbar;
     QMenuBar *menuBar;
     QMenu *menuMenu;
+    QLineEdit *loopCountLine;
+    QLineEdit *endLine;
+    QPushButton *loopButton;
+    QLineEdit *startLine;
 
     int commandNumber = 1;
     char errorMsg = 'A';
@@ -360,6 +364,25 @@ public:
         dpadFrame->setStyleSheet(QString::fromUtf8("background-image: (0,0,0,0);"));
         dpadFrame->setFrameShape(QFrame::StyledPanel);
         dpadFrame->setFrameShadow(QFrame::Raised);
+        loopCountLine = new QLineEdit(leftInputFrame);
+        loopCountLine->setObjectName(QString::fromUtf8("loopCountLine"));
+        loopCountLine->setGeometry(QRect(20, 230, 101, 22));
+        loopCountLine->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 189, 221);\n"
+"border: 1px solid rgb(0, 0, 0);"));
+        endLine = new QLineEdit(leftInputFrame);
+        endLine->setObjectName(QString::fromUtf8("endLine"));
+        endLine->setGeometry(QRect(75, 200, 41, 22));
+        endLine->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 189, 221);\n"
+"border: 1px solid rgb(0, 0, 0);"));
+        loopButton = new QPushButton(leftInputFrame);
+        loopButton->setObjectName(QString::fromUtf8("loopButton"));
+        loopButton->setGeometry(QRect(20, 160, 101, 31));
+        loopButton->setFont(font2);
+        startLine = new QLineEdit(leftInputFrame);
+        startLine->setObjectName(QString::fromUtf8("startLine"));
+        startLine->setGeometry(QRect(25, 200, 41, 22));
+        startLine->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 189, 221);\n"
+"border: 1px solid rgb(0, 0, 0);"));
         rightInputFrame = new QFrame(controllerInputs);
         rightInputFrame->setObjectName(QString::fromUtf8("rightInputFrame"));
         rightInputFrame->setGeometry(QRect(290, 10, 141, 381));
@@ -1068,6 +1091,19 @@ public:
                ++commandNumber;
            }
        });
+       QObject::connect(loopButton, &QPushButton::clicked, [=](){
+           ftdiFunctions ftdi;
+           ftdi.ftdiStartup();
+           if((ftdi.validateInt(startLine->text().toStdString())) && (ftdi.validateInt(endLine->text().toStdString())) &&
+                   (ftdi.validateInt(loopCountLine->text().toStdString())) && (commandNumber > 1)) {
+               scriptBox->appendPlainText(QString::number(commandNumber) + ". Start(" + startLine->text()+");");
+               commandNumber++;
+               scriptBox->appendPlainText(QString::number(commandNumber) + ". End(" + endLine->text()+");");
+               commandNumber++;
+               scriptBox->appendPlainText(QString::number(commandNumber) + ". Times(" + loopCountLine->text()+");");
+               commandNumber++;
+           }
+       });
        QObject::connect(clearBox, &QPushButton::clicked, [=](){
            scriptBox->clear();
            commandNumber = 1;
@@ -1296,6 +1332,12 @@ public:
 #if QT_CONFIG(whatsthis)
         dpadFrame->setWhatsThis(QCoreApplication::translate("MainWindow", "Disabled inputs", nullptr));
 #endif // QT_CONFIG(whatsthis)
+        loopCountLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "loop count", nullptr));
+        endLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "end", nullptr));
+        loopButton->setText(QCoreApplication::translate("MainWindow", "Add Loop", nullptr));
+        startLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "start", nullptr));
+
+
 #if QT_CONFIG(whatsthis)
         rButton->setWhatsThis(QCoreApplication::translate("MainWindow", "R Button", nullptr));
 #endif // QT_CONFIG(whatsthis)

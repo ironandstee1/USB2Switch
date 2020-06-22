@@ -263,18 +263,69 @@ void General::executeMemScript() {
    int intDuration;
    unsigned long buttonDuration;
    //char buttonChars[] = "ABXYRSLMCHPON";
-   char buttonChars[13] = { 'A','B','X','Y','R','S','L','M','C','H','P','O','N' };
-   char rightJoystickChars[4] = { 'a','b','c','d' };
-   char leftJoystickChars[4] = { 'e','f','g','h' };
    String buttonString = "ABXYRSLMCHPON";
    String rightJoystickString = "abcd";
    String leftJoystickString = "efgh";
+   String forLoopString = "E";
+ 
 
 
    for (int i = 1; i < (actionCount+1); i++) {
       buttonPressed = EEPROM.read(3*i);
       intDuration = word(EEPROM.read(3*i+1),EEPROM.read(3*i+2));
       buttonDuration = intDuration;
+      // Beginning of for loop implementation
+      if (forLoopString.indexOf(String(buttonPressed).charAt(0)) != -1) {
+        Serial1.println("Loop conf: " + String(i)); 
+        
+        for (int j = 0; j < word(EEPROM.read(3*i+7), EEPROM.read(3*i+8)); j++) {
+
+            for (int k = word(EEPROM.read(3*i+1), EEPROM.read(3*i+2)); k < (word(EEPROM.read(3*i+4), EEPROM.read(3*i+5))+1); k++) {
+              buttonPressed = EEPROM.read(3*k);
+              intDuration = word(EEPROM.read(3*k+1),EEPROM.read(3*k+2));
+              buttonDuration = intDuration;
+              //Serial1.println("Current line: " + String(k) + "XXXXXXXX");
+
+              if (buttonString.indexOf(String(buttonPressed).charAt(0)) != -1) {
+                if (String(buttonPressed).charAt(0) == 'N') { 
+                  while (Nothing(buttonDuration) == true);
+                  Serial1.println("LOOP" + String(j) + " " + String(k) + " " + String(buttonPressed) + " " + String(getButton(buttonPressed)) + " XXXXXXXXXX");
+                }
+                else {
+                  while (PressOneButton(getButton(buttonPressed), buttonDuration, 1) == true);
+                  Serial1.println("LOOP" + String(j) + " " + String(k) + " " + String(buttonPressed) + " " + String(getButton(buttonPressed)) + " XXXXXXXXXX");
+                }
+              }
+              else if (rightJoystickString.indexOf(String(buttonPressed).charAt(0)) != -1) {
+                if ((String(buttonPressed).charAt(0) == 'a') || (String(buttonPressed).charAt(0) == 'd')) {
+                  while (RightJoystick(STICK_CENTER, getButton(buttonPressed), buttonDuration, 1) == true);        
+                }
+                else {
+                  while (RightJoystick(getButton(buttonPressed), STICK_CENTER, buttonDuration, 1) == true);
+                }
+              }
+              else if (leftJoystickString.indexOf(String(buttonPressed).charAt(0)) != -1) {
+                if ((String(buttonPressed).charAt(0) == 'e') || (String(buttonPressed).charAt(0) == 'h')) {
+                  while (LeftJoystick(STICK_CENTER, getButton(buttonPressed), buttonDuration, 1) == true);       
+                }
+                else {
+                  while (LeftJoystick(getButton(buttonPressed), STICK_CENTER, buttonDuration, 1) == true);
+                }
+              }
+              else {
+                Serial1.println("LOOP" + String(j) + " " + String(k) + " " + String(buttonPressed) + " " + "YYYYYYYYYYYY");
+              }
+
+            }
+            //Serial1.println("Loop " + String(j+1) + " CompleteXXXXXXXX");
+        }
+        i = i + 3;
+      }
+
+      buttonPressed = EEPROM.read(3*i);
+      intDuration = word(EEPROM.read(3*i+1),EEPROM.read(3*i+2));
+      buttonDuration = intDuration;
+
       if (buttonString.indexOf(String(buttonPressed).charAt(0)) != -1) {
         if (String(buttonPressed).charAt(0) == 'N') { 
           while (Nothing(buttonDuration) == true);
@@ -300,7 +351,7 @@ void General::executeMemScript() {
         else {
           while (LeftJoystick(getButton(buttonPressed), STICK_CENTER, buttonDuration, 1) == true);
         }
-      }  
+      }
       else {
         Serial1.println(String(i) + " " + String(buttonPressed) + " " + "YYYYYYYYYYYY");
       }
@@ -334,9 +385,6 @@ int General::getButton(char selectButton) {
 
 }
 
-
-
-
 int General::getInteger(String incomingMessage) {
   return incomingMessage.substring(incomingMessage.indexOf("(")+1, incomingMessage.indexOf(")")).toInt();
 }
@@ -365,6 +413,9 @@ char General::getChar(String incomingMessage) {
   else if (inputValue == "ljsLeft") { return 'f';}
   else if (inputValue == "ljsRight") { return 'g'; }
   else if (inputValue == "ljsDown") { return 'h'; }
+  else if (inputValue == "Start") { return 'E'; }
+  else if (inputValue == "End") { return 'F'; }
+  else if (inputValue == "Times") { return 'G'; }
   else {return 'Z'; }
 }
 

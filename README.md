@@ -1,6 +1,109 @@
-# USB2Switch
+# USB2Switch v0.0.2-alpha
 
 USB2Switch is a program designed to allow users to control their Nintendo Switch games via a USB connection. 
+
+## Versions 
+
+### v0.1.0-alpha
+
+v0.1.0-alpha adds a new important feature - single looping - to the scripting system in addition to other small changes.
+
+<details>
+  <summary>Feature summary</summary>
+
+#### USB2Switch PC Application
+
+Green is functional, orange is deprecated/broken, red is removed. 
+
+```diff
++ Added startLine, endLine, and loopCountLine line edits to support creating loops from the GUI.
++ Added loop button to gather line data and add it to the plain text edit.
++ Changed the name of the Status window frame from Frame to Status.
+```
+
+#### USB2Switch ATmega32u4 Firmware
+
+```diff
++ Added support for single looping to the flashing and execute functions.
+```
+</details>
+
+### v0.0.2-alpha
+
+v0.0.2-alpha focuses on two major changes - adding joystick functionality (previously commented out) and script button compatibility on the arduino end. This release also includes an added mainpage .ui form so users can take a look and modify the ui in Qt Designer. 
+
+<details>
+  <summary>Feature summary</summary>
+
+#### USB2Switch PC Application
+
+Green is functional, orange is deprecated/broken, red is removed. 
+
+```diff
++ Added color animations to all of the preloaded script select buttons
+```
+
+#### USB2Switch ATmega32u4 Firmware
+
+```diff
++ Added joystick support (previously commented out) and fixed bugs. 
++ Added support for ACNH scripts from acnh-tools.
++ Added use cases for script choosing buttons on the GUI. 
+- Removed simple script function in general to ensure memory availability but did not remove header file
+! Now at 91% of program storage. 
+! Scripts are untested. Most should work but some may not due to string conversion or typo bugs (especially EV, fossil, and egg hatch) that I anticipate may have been introduced. 
+```
+</details>
+
+### v0.0.1-alpha
+
+v0.0.1-alpha is the initial release of the program.
+
+<details>
+  <summary>Feature summary</summary>
+
+#### USB2Switch PC Application
+
+Green is functional, orange is deprecated/broken. 
+
+```diff
++ Created GUI
++ Added joycons for button input
++ Overlayed buttons on joycon for all inputs
++ Overlayed joystick dials for left and right joysticks
++ Created skeleton tab section for preloaded scripts
++ Created duration input
++ Connected duration and inputs to script window
++ Added function and button for flashing scripts to EEPROM 
++ Added function and button for clearing EEPROM of all commands
++ Added function and button for executing scripts loaded to the board
++ Added function and button for clearing the script box
++ Added Status checking window
++ Added function for checking status to Status checking window
++ Added responsive fields for checkoffs in Status window
++ Added task status bar to monitor functions
++ Added skeleton instant checkbox
++ Added monitor checkbox for debug mode (not included in release)
++ Added Custom Message field
++ Added skeleton menu
++ Added handshake functions for all communication between PC and ATmega32u4 board
++ Added error handling for disconnected FTDI chips and timeouts
+! Added FTDI test function
+```
+
+#### USB2Switch ATmega32u4 Firmware
+
+```diff
++ Ported swemu-plus-plus
++ Added handshake implementations for receiving data to every communication function
++ Added function for flashing EEPROM
++ Added function for clearing EEPROM
++ Added function for executing stored script
++ Added function for sending status data to PC
++ Added serial data handling
+```
+</details>
+
 
 ## About the program
 
@@ -155,102 +258,47 @@ I use Qt Creator but you're welcome to use whatever environment suits your needs
 
 </details>
 
-### Instructions
+## Instructions
 
 1. Plug the board into your switch and the FT232R into your PC.
 
 1. Click the Clear EEPROM button. If you receive an error, plug both the board and FT232R back in. Wait for several seconds before trying to clear again. Most errors occur due to the FT232R needing to be plugged back in, and it often takes several seconds for the device to register and work properly after being pluggd in.
 
-1. Create a script by entering duration and clicking buttons. The duration can be changed on a per-button basis. The script can be edited directly in the script window as well. Be careful to only use valid names for the buttons - what is generated is what's available. Using unintended messages may have unintended consequences. 
+1. Create a script by entering duration and clicking buttons. The duration can be changed on a per-button basis. The script can be edited directly in the script window as well. Be careful to only use valid names for the buttons - what is generated is what's available. Using unintended messages may have unintended consequences. Loops can be created from the second line onward. They require that the start, end, and count lines be chosen and can be one or more lines and loops in length. 
 
 1. Click the flash EEPROM button and wait for the FLASH to complete. It is normal for application freezes in inputs during this.
 
-1. Click the Execute button and watch your script execute. If it's not executing, try plugging the board into a different USB port. 
-
-## Versions 
-
-### v0.0.1-alpha
-
-<details>
-  <summary>Feature notes</summary>
-
-
-
-#### USB2Switch PC Application
-
-Green is functional, orange is deprecated/broken. 
-
-```diff
-+ Created GUI
-+ Added joycons for button input
-+ Overlayed buttons on joycon for all inputs
-+ Overlayed joystick dials for left and right joysticks
-+ Created skeleton tab section for preloaded scripts
-+ Created duration input
-+ Connected duration and inputs to script window
-+ Added function and button for flashing scripts to EEPROM 
-+ Added function and button for clearing EEPROM of all commands
-+ Added function and button for executing scripts loaded to the board
-+ Added function and button for clearing the script box
-+ Added Status checking window
-+ Added function for checking status to Status checking window
-+ Added responsive fields for checkoffs in Status window
-+ Added task status bar to monitor functions
-+ Added skeleton instant checkbox
-+ Added monitor checkbox for debug mode (not included in release)
-+ Added Custom Message field
-+ Added skeleton menu
-+ Added handshake functions for all communication between PC and ATmega32u4 board
-+ Added error handling for disconnected FTDI chips and timeouts
-! Added FTDI test function
-```
-
-#### USB2Switch ATmega32u4 Firmware
-
-```diff
-+ Ported swemu-plus-plus
-+ Added handshake implementations for receiving data to every communication function
-+ Added function for flashing EEPROM
-+ Added function for clearing EEPROM
-+ Added function for executing stored script
-+ Added function for sending status data to PC
-+ Added serial data handling
-```
-</details>
+1. Click the Execute button and watch your script execute. If it's not executing, try plugging the board into a different USB port and try again.  
 
 ## Images
 
 <details>
-  <summary>Full Application</summary>
+  <summary>Full Application v0.0.2-alpha</summary>
 
 ![fullscreen](https://user-images.githubusercontent.com/59491492/85200142-78e29d80-b2ba-11ea-95b5-ec88c826fb41.JPG)
 
 </details>
 
 <details>
-  <summary>Script Window</summary>
+  <summary>Script Window v0.0.2-alpha</summary>
 
 ![scriptwindows](https://user-images.githubusercontent.com/59491492/85200149-8e57c780-b2ba-11ea-82ba-79059020263a.JPG)
 
 </details>
 
 <details>
-  <summary>Error Message</summary>
+  <summary>Error Message v0.0.2-alpha</summary>
 
 ![errormsg](https://user-images.githubusercontent.com/59491492/85200174-b21b0d80-b2ba-11ea-9fad-77375a4d106c.JPG)
 
 </details>
 
 <details>
-  <summary>Status Messages</summary>
+  <summary>Status Messages v0.0.2-alpha</summary>
 
 ![greenstatus](https://user-images.githubusercontent.com/59491492/85200181-c232ed00-b2ba-11ea-9a43-5c09e0bb3054.JPG)
 
 ![yellowstatus](https://user-images.githubusercontent.com/59491492/85200182-c52ddd80-b2ba-11ea-81fb-b9c03064b188.JPG)
 
 </details>
-
-
-
-
 
